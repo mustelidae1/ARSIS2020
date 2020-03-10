@@ -20,10 +20,9 @@ MonoBehaviour:
     maxSimultaneousImageTargets: 7
     maxSimultaneousObjectTargets: 7
     useDelayedLoadingObjectTargets: 1
-    cameraDirection: 0
-    mirrorVideoBackground: 0
-    version: 8.0.10
-    eulaAcceptedVersions: '{"Values":["7.1","8.0","7.2","7.5","7.7","8.1","0.0"]}'
+    modelTargetRecoWhileExtendedTracked: 1
+    version: 8.3.8
+    eulaAcceptedVersions: '{"Values":["7.1","8.0","7.2","7.5","7.7","8.1","0.0","8.5","8.3","8.6"]}'
   digitalEyewear:
     cameraOffset: 0.06
     distortionRenderingLayer: 31
@@ -45,16 +44,18 @@ MonoBehaviour:
       DistortionCoefficients: {x: 0, y: 0}
       FieldOfView: {x: 0, y: 0, z: 0, w: 0}
       ContainsMagnet: 0
+  database:
+    disableModelExtraction: 0
   videoBackground:
     clippingMode: 0
     numDivisions: 2
-    videoBackgroundShader: {fileID: 4800000, guid: f40623b353e2f1943b1b3ba42975db7a,
-      type: 3}
-    matteShader: {fileID: 4800000, guid: 66d0d78a3000021448b598bb54a3bfdf, type: 3}
+    videoBackgroundShader: {fileID: 0}
+    matteShader: {fileID: 0}
     videoBackgroundEnabled: 1
   deviceTracker:
     autoInitTracker: 1
     autoStartTracker: 1
+    arcoreRequirement: 0
     trackingMode: 1
     posePrediction: 0
     modelCorrectionMode: 0
@@ -65,6 +66,5 @@ MonoBehaviour:
     autoStartTracker: 0
   webcam:
     deviceNameSetInEditor: 
-    flipHorizontally: 0
     turnOffWebCam: 0
     renderTextureLayer: 30
