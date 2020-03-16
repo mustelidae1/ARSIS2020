@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARInfo>
+<TargetSet version="17.0" toolVersion="8.6.7">
+<ModelTarget name="Rubber_Duck" targetId="be15ddadfcb44e96b49a1e61ed7bfc84" version="11.1" toolVersion="8.6.7" bbox="-0.037117 -0.049333 -0.022742 0.037117 0.052014 0.083825" previewImage="be15ddadfcb44e96b49a1e61ed7bfc84_preview.jpg"/>
+
+</TargetSet>
+
+<Assembly name="Rubber_Ducks_assembly" assemblyId="a45cbb198a2b490f8bf78f3ef501c76e">
+<Part name="Rubber_Duck" translation="0 0 0" rotation="AD: 0 0 1 0"/>
+<EntryPoint name="viewpoint_0000" translation="-0.00275596 0.0162417 0.203726" rotation="AD: 0.9994332916572755 0.299721618770197 -0.1273187823460622 136.013" image="Rubber_Duck_viewpoint_0000.png" trained="yes">
+
+</EntryPoint>
+
+</Assembly>
+
+</QCARInfo>

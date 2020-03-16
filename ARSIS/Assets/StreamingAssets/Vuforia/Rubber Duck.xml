@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig>
+<Tracking>
+<ModelTarget name="Rubber_Duck" motionHint="static"/>
+
+</Tracking>
+
+<Assembly name="Rubber_Ducks_assembly" assemblyId="a45cbb198a2b490f8bf78f3ef501c76e">
+<Part name="Rubber_Duck" translation="0 0 0" rotation="AD: 0 0 1 0"/>
+<EntryPoint name="viewpoint_0000" translation="-0.00275596 0.0162417 0.203726" rotation="AD: 0.9994332916572755 0.299721618770197 -0.1273187823460622 136.013" trained="yes">
+
+</EntryPoint>
+
+</Assembly>
+
+</QCARConfig>
