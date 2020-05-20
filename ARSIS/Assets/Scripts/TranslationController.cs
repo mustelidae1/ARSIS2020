@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TranslationController : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class TranslationController : MonoBehaviour
     public float lineResolution = 0.1f; // resolution in meters, smaller is more accurate.
     private List<Vector3> waypoints = null;
     private bool doCapture = false;
+    public GameObject recordingIndicator; 
 
     public static TranslationController S; 
 
@@ -23,7 +25,8 @@ public class TranslationController : MonoBehaviour
             return;
         }
         waypoints = new List<Vector3>();
-        clearPath(); 
+        clearPath();
+        recordingIndicator.SetActive(false); 
     }
     
     void FixedUpdate()
@@ -37,12 +40,14 @@ public class TranslationController : MonoBehaviour
         clearPath();
         showPath(); 
         doCapture = true;
+        recordingIndicator.SetActive(true);
         Debug.Log("Starting path capture.");
     }
 
     public void stopPathCapture()
     {
         doCapture = false;
+        recordingIndicator.SetActive(false);
         Debug.Log("Stopping path capture.");
     }
 

@@ -76,6 +76,7 @@ public class VoiceManager : MonoBehaviour
         _keywords.Add("Adele Procedures", ProcedureList);
         _keywords.Add("Adele Music", musicMenu);
         _keywords.Add("Adele Tasklist", TaskList);
+        _keywords.Add("Adele New Field Note", NewFieldNote); 
 
         ///////////////////// Menu Navigation /////////////////////
         _keywords.Add("Adele Reset", ResetScene);
@@ -224,6 +225,11 @@ public class VoiceManager : MonoBehaviour
     {
         mc.addMenu(mc.m_taskList);
         displayStep();
+    }
+
+    public void NewFieldNote()
+    {
+        mc.addMenu(mc.m_newFieldNote); 
     }
 
     /*Functions to add Diagrams to the scene*/

@@ -36,6 +36,7 @@ public class MenuController : MonoBehaviour
     public GameObject m_blankTaskMenu;
     public GameObject m_diagramList;
     public GameObject m_Diagram;
+    public GameObject m_newFieldNote; 
 
     //Diagrams
     public Texture2D d_BGA_Hardware_Overview;
