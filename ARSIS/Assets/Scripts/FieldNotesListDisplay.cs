@@ -12,12 +12,19 @@ public class FieldNotesListDisplay : MonoBehaviour
 
     public GameObject detailPanel;
     public Text detailTitle;
-    public Text detailBody; 
+    public Text detailBody;
+
+    public GameObject deleteButton;
+    public GameObject newButton;
+    public GameObject returnButton; 
 
     public void showFieldNotes(ResponseRepository notes)
     {
         fieldNotesListGrid.SetActive(true);
-        detailPanel.SetActive(false); 
+        detailPanel.SetActive(false);
+        deleteButton.SetActive(true);
+        //newButton.SetActive(true);
+        returnButton.SetActive(false); 
         foreach (Transform child in fieldNotesListGrid.transform)
         {
             Destroy(child.gameObject);
@@ -40,6 +47,9 @@ public class FieldNotesListDisplay : MonoBehaviour
     {
         fieldNotesListGrid.SetActive(false);
         detailPanel.SetActive(true);
+        deleteButton.SetActive(false);
+        //newButton.SetActive(false);
+        returnButton.SetActive(true);
 
         detailTitle.text = response.date.ToString();
 

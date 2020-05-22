@@ -11,9 +11,11 @@ public class FieldNoteDisplay : MonoBehaviour
     public GameObject button3;
     public Text promptText;
     public GameObject instructionsText;
+    public RawImage image; 
 
     public void setQuestion(string text, string[] options, bool skippable)
     {
+        image.gameObject.SetActive(false); 
         promptText.text = text;
         if (options.Length == 2)
         {
@@ -55,5 +57,16 @@ public class FieldNoteDisplay : MonoBehaviour
         button3.SetActive(false);
         instructionsText.SetActive(false); 
         promptText.text = "Field note recorded!"; 
+    }
+
+    public void displayPicturePrompt()
+    {
+        image.gameObject.SetActive(true);
+        skipButton.SetActive(false);
+        button1.SetActive(false);
+        button2.SetActive(false);
+        button3.SetActive(false);
+        instructionsText.SetActive(false);
+        promptText.text = "Take a picture of the sample using \"Adele Capture\"";
     }
 }

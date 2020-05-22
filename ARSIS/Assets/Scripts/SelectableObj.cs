@@ -95,7 +95,11 @@ public class SelectableObj : MonoBehaviour
     {
         MenuController.s.deselect.Invoke();
         selected = true;
-        highlightImage.color = selectColor; 
+        highlightImage.color = selectColor;
+        if (deselectsAutomatically)
+        {
+            Invoke("onUnselect", 1f);
+        }
     }
 
     public virtual void onUnselect()

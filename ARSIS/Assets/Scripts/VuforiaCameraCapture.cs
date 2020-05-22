@@ -241,8 +241,8 @@ public class VuforiaCameraCapture : MonoBehaviour
 
     void FixedUpdate()
     {
-        /*
-        if (lastCaptureTime + 30.0f < Time.realtimeSinceStartup && timedCaptureEnabled)
+        
+ /*       if (lastCaptureTime + 30.0f < Time.realtimeSinceStartup && timedCaptureEnabled)
         {
 #if !UNITY_EDITOR
             TrackerManager.Instance.GetTracker<ObjectTracker>().Stop();
@@ -266,13 +266,13 @@ public class VuforiaCameraCapture : MonoBehaviour
             //m_RawImageBig.material.SetTexture(m_Texture);
             //m_RawImageBig.material.mainTexture = m_Texture;
         }
-        */
+        
 
         //if (lastCaptureTime + 10.0f < Time.realtimeSinceStartup)
         //{
         //    lastCaptureTime = Time.realtimeSinceStartup;
         //    BeginScanQRCode();
-        //}
+        //}  */
 
     }
 
@@ -292,7 +292,7 @@ public class VuforiaCameraCapture : MonoBehaviour
     /// </summary>
     private void RegisterFormat()
     {
-        /*#if !UNITY_EDITOR
+    /*    #if !UNITY_EDITOR
                 if (CameraDevice.Instance.SetFrameFormat(mPixelFormat, true))
                 {
                     Debug.Log("Successfully registered camera pixel format " + mPixelFormat.ToString());
@@ -303,7 +303,7 @@ public class VuforiaCameraCapture : MonoBehaviour
                     Debug.LogError("Failed to register camera pixel format " + mPixelFormat.ToString());
                     mFormatRegistered = false;
                 }
-        #endif*/
+        #endif  */
     }
 
     private void OnVuforiaStarted()

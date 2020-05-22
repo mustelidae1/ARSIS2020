@@ -86,10 +86,20 @@ public class FieldNotesManager : MonoBehaviour
 
     public void finalQuestion()
     {
-        SaveFile(); 
+        //MenuController.s.m_newFieldNote.GetComponent<FieldNoteDisplay>().displayPicturePrompt();
+
+        SaveFile();
 
         MenuController.s.m_newFieldNote.GetComponent<FieldNoteDisplay>().displayFinalQuestion();
-        inProgress = false; 
+        inProgress = false;
+    }
+
+    public void confirmationMessage()
+    {
+        SaveFile();
+
+        MenuController.s.m_newFieldNote.GetComponent<FieldNoteDisplay>().displayFinalQuestion();
+        inProgress = false;
     }
 
     public void selectFirstAnswer()

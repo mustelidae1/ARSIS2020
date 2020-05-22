@@ -475,7 +475,7 @@ public class VoiceManager : MonoBehaviour
 
     public void TakePhoto()
     {
-       // VuforiaCameraCapture.S.TakePhoto(true);
+        VuforiaCameraCapture.S.TakePhoto(true);
 
         m_Source.clip = m_ZoomOut;
         m_Source.Play();
