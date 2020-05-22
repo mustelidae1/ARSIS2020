@@ -8,6 +8,7 @@ using UnityEngine.UI;
 /// </summary>
 public class MenuController : MonoBehaviour
 {
+    public static MenuController s; 
     // Default menu; set as current menu on initialization 
     [HideInInspector]
     public GameObject m_CurrentMenu;
@@ -36,7 +37,8 @@ public class MenuController : MonoBehaviour
     public GameObject m_blankTaskMenu;
     public GameObject m_diagramList;
     public GameObject m_Diagram;
-    public GameObject m_newFieldNote; 
+    public GameObject m_newFieldNote;
+    public GameObject m_fieldNotes; 
 
     //Diagrams
     public Texture2D d_BGA_Hardware_Overview;
@@ -70,6 +72,12 @@ public class MenuController : MonoBehaviour
 
     public GameObject currentMenuHit = null;
 
+    public delegate void Unhighlight();
+    public Unhighlight unhighlight;
+
+    public delegate void Deselect();
+    public Deselect deselect; 
+
     public void Start()
     {
         //SpatialMapping.Instance.MappingEnabled = false; 
@@ -78,6 +86,8 @@ public class MenuController : MonoBehaviour
         currentSubTask = 0;
         currentTask = 0;
         currentProcedure = 0;
+
+        s = this; 
     }
 
     private void FixedUpdate()
@@ -150,6 +160,10 @@ public class MenuController : MonoBehaviour
     {
         if (currentMenuHit != null)
         {
+            if (currentMenuHit == m_newFieldNote)
+            {
+                FieldNotesManager.s.inProgress = false;
+            }
             currentMenuHit.transform.gameObject.SetActive(false);
         }
     }
@@ -248,6 +262,7 @@ public class MenuController : MonoBehaviour
     /*closes all open menus*/
     public void closeAll()
     {
+        FieldNotesManager.s.inProgress = false; 
         // loop through the list of open menus and set the visibility to false
 
         foreach (GameObject menu in activeMenus)
@@ -305,6 +320,7 @@ public class MenuController : MonoBehaviour
         m_PreviousMenu.SetActive(true);
     }
 
+    public SelectableObj currentSelection = null; 
     private void Update()
     {
 
@@ -325,6 +341,18 @@ public class MenuController : MonoBehaviour
             //Debug.Log("Back you!");
             //currentMenuHit.transform.position = new Vector3(currentMenuHit.transform.position.x, currentMenuHit.transform.position.y, currentMenuHit.transform.position.z + 0.05f);
             currentMenuHit = null;
+        }
+
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.rotation * Vector3.forward, out hit, Mathf.Infinity) && hit.transform.tag == "selectable")
+        {
+            currentSelection = hit.transform.gameObject.GetComponent<SelectableObj>(); 
+            unhighlight.Invoke(); // unselect everything before selecting the new button 
+            currentSelection.onHighlight(); 
+        } else if (currentSelection != null)
+        {
+            unhighlight.Invoke(); 
+            currentSelection.onUnhighlight(); 
+            currentSelection = null; 
         }
     }
 }

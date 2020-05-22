@@ -118,18 +118,18 @@ public class VuforiaCameraCapture : MonoBehaviour
         ScanQRCode();
         TrackerManager.Instance.GetTracker<ObjectTracker>().Start();
         CameraDevice.Instance.Start();
-#if !UNITY_EDITOR
-            NetworkMeshSource.getSingleton().sendImage(m_Texture,Camera.main.transform.position, Camera.main.transform.rotation);
-#endif
+        //#if !UNITY_EDITOR
+        //            NetworkMeshSource.getSingleton().sendImage(m_Texture,Camera.main.transform.position, Camera.main.transform.rotation);
+        //#endif
         try
         {
             //QRCodeChecker qr = QRCodeChecker.getSingleton();
             //string o = qr.findQRCodeInImage(m_Texture);
             //Debug.Log(o);
             //if (o.Length > 0)
-           // {
-           //     outText = o;
-           // }
+            // {
+            //     outText = o;
+            // }
         }
         catch (Exception e)
         {
@@ -292,18 +292,18 @@ public class VuforiaCameraCapture : MonoBehaviour
     /// </summary>
     private void RegisterFormat()
     {
-#if !UNITY_EDITOR
-        if (CameraDevice.Instance.SetFrameFormat(mPixelFormat, true))
-        {
-            Debug.Log("Successfully registered camera pixel format " + mPixelFormat.ToString());
-            mFormatRegistered = true;
-        }
-        else
-        {
-            Debug.LogError("Failed to register camera pixel format " + mPixelFormat.ToString());
-            mFormatRegistered = false;
-        }
-#endif
+        /*#if !UNITY_EDITOR
+                if (CameraDevice.Instance.SetFrameFormat(mPixelFormat, true))
+                {
+                    Debug.Log("Successfully registered camera pixel format " + mPixelFormat.ToString());
+                    mFormatRegistered = true;
+                }
+                else
+                {
+                    Debug.LogError("Failed to register camera pixel format " + mPixelFormat.ToString());
+                    mFormatRegistered = false;
+                }
+        #endif*/
     }
 
     private void OnVuforiaStarted()

@@ -6,6 +6,7 @@ using UnityEngine.Windows.Speech;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
+using UnityEngine.Events;
 
 /// <summary>
 /// Manages all ADELE voice commands. 
@@ -23,6 +24,7 @@ public class VoiceManager : MonoBehaviour
     private MenuController mc;
     private GameObject menuToUse;
 
+    public GameObject sadFace; 
 
     // Needed to check which settings menu is open for slider function 
     public GameObject m_brightnessMenu;
@@ -76,7 +78,8 @@ public class VoiceManager : MonoBehaviour
         _keywords.Add("Adele Procedures", ProcedureList);
         _keywords.Add("Adele Music", musicMenu);
         _keywords.Add("Adele Tasklist", TaskList);
-        _keywords.Add("Adele New Field Note", NewFieldNote); 
+        _keywords.Add("Adele New Field Note", NewFieldNote);
+        _keywords.Add("Adele Field Notes", FieldNotes); 
 
         ///////////////////// Menu Navigation /////////////////////
         _keywords.Add("Adele Reset", ResetScene);
@@ -89,6 +92,7 @@ public class VoiceManager : MonoBehaviour
         _keywords.Add("Adele Back", Back);
         _keywords.Add("Adele Zoom In", zoomIn);
         _keywords.Add("Adele Zoom Out", zoomOut);
+        _keywords.Add("Adele Choose", Select); 
         // _keywords.Add("Adele Retrieve", Retrieve);
 
         ///////////////////// Translation /////////////////////
@@ -106,14 +110,14 @@ public class VoiceManager : MonoBehaviour
 
         ///////////////////// Music /////////////////////
         _keywords.Add("Adele Hello", PlayAdele);
-        _keywords.Add("Adele Africa", PlayAfrica);
-        _keywords.Add("Adele Skyfall", PlaySkyfall);
-        _keywords.Add("Adele Space Oddity", PlaySpaceOddity);
-        _keywords.Add("Adele Thunderstruck", PlayThunderstruck);
-        _keywords.Add("Adele Eclipse", PlayEclipse);
-        _keywords.Add("Adele Rocket Man", PlayRocketMan);
-        _keywords.Add("Adele Stop", StopMusic);
-        _keywords.Add("Adele shut up", PlaySkyfall);
+        //_keywords.Add("Adele Africa", PlayAfrica);
+        //_keywords.Add("Adele Skyfall", PlaySkyfall);
+        //_keywords.Add("Adele Space Oddity", PlaySpaceOddity);
+        //_keywords.Add("Adele Thunderstruck", PlayThunderstruck);
+        //_keywords.Add("Adele Eclipse", PlayEclipse);
+        //_keywords.Add("Adele Rocket Man", PlayRocketMan);
+        //_keywords.Add("Adele Stop", StopMusic);
+        //_keywords.Add("Adele shut up", PlaySkyfall);
 
         ///////////////////// Mesh /////////////////////
         _keywords.Add("Enable Mesh", enableMesh);
@@ -127,6 +131,16 @@ public class VoiceManager : MonoBehaviour
         _keywords.Add("Adele Diagram 3", Diagram3);
         _keywords.Add("Adele Diagram 4", Diagram4);
         _keywords.Add("Adele Diagram 5", Diagram5);
+
+        /////////////////// Easter Eggs ////////////////////  <-- my sister made me add this 
+        _keywords.Add("fuck", BadWord);
+        _keywords.Add("shit", BadWord);
+        _keywords.Add("Bad Word", BadWord);
+        _keywords.Add("bitch", BadWord);
+        _keywords.Add("damn", BadWord);
+        _keywords.Add("bloody hell", BadWord);
+        _keywords.Add("hell", BadWord);
+        _keywords.Add("darn it", BadWord); 
 
         #endregion
 
@@ -164,6 +178,26 @@ public class VoiceManager : MonoBehaviour
             generateTaskMenu();
         });
         resetKeywordRecognizer();
+    }
+
+    public void addCommand(string name, UnityEvent response) {
+        if (_keywords.ContainsKey("Adele " + name)) return;
+        _keywords.Add("Adele " + name, () =>
+        {
+            response.Invoke(); 
+        });
+        //Debug.Log("Added command: " + name); 
+        resetKeywordRecognizer(); 
+    }
+
+    public void removeCommand(string name)
+    {
+        if (_keywords.ContainsKey("Adele " + name))
+        {
+            _keywords.Remove("Adele " + name); 
+        }
+        //Debug.Log("Removed command: " + name); 
+        resetKeywordRecognizer(); 
     }
 
 
@@ -229,7 +263,15 @@ public class VoiceManager : MonoBehaviour
 
     public void NewFieldNote()
     {
-        mc.addMenu(mc.m_newFieldNote); 
+        mc.addMenu(mc.m_newFieldNote);
+        FieldNotesManager.s.showFirstQuestion(); 
+    }
+
+    public void FieldNotes()
+    {
+        mc.addMenu(mc.m_fieldNotes);
+        FieldNotesManager.s.showAllFieldNotes(); 
+
     }
 
     /*Functions to add Diagrams to the scene*/
@@ -408,6 +450,25 @@ public class VoiceManager : MonoBehaviour
         mc.closeMenu();
     }
 
+    public void Select()
+    {
+        if (mc.currentSelection != null)
+        {
+            mc.currentSelection.GetComponent<SelectableObj>().onSelect(); 
+        }
+    }
+
+    public void BadWord()
+    {
+        sadFace.SetActive(true); 
+        Invoke("sadFaceGoAway", 1f); 
+    }
+
+    private void sadFaceGoAway()
+    {
+        sadFace.SetActive(false); 
+    }
+
     #endregion
 
     #region Special Functions 
@@ -508,25 +569,33 @@ public class VoiceManager : MonoBehaviour
 
     public void Next()
     {
-
-        mc.currentSubTask++;
-        //int maxLength = TaskManager.S.allTasks[mc.currentTask];
-        if (mc.currentSubTask > TaskManager.S.GetTask(mc.currentProcedure, mc.currentTask).SubTasks.Length - 1)
+        if (FieldNotesManager.s.inProgress)
         {
-            //if there are no more subtasks, task is complete
-            mc.currentSubTask = 0;
-            mc.currentTask++;
-
-            if (mc.currentTask > TaskManager.S.GetProcedure(mc.currentProcedure).Tasks.Length - 1)
-            {
-                //when procedure is complete
-                mc.currentTask = 0;
-                mc.currentProcedure++;
-            }
+            FieldNotesManager.s.nextQuestion();
+            mc.deselect.Invoke();
+            mc.unhighlight.Invoke(); 
         }
+        if (mc.currentMenuHit == mc.m_taskList)
+        {
+            mc.currentSubTask++;
+            //int maxLength = TaskManager.S.allTasks[mc.currentTask];
+            if (mc.currentSubTask > TaskManager.S.GetTask(mc.currentProcedure, mc.currentTask).SubTasks.Length - 1)
+            {
+                //if there are no more subtasks, task is complete
+                mc.currentSubTask = 0;
+                mc.currentTask++;
 
-        displayStep();
+                if (mc.currentTask > TaskManager.S.GetProcedure(mc.currentProcedure).Tasks.Length - 1)
+                {
+                    //when procedure is complete
+                    mc.currentTask = 0;
+                    mc.currentProcedure++;
+                }
+            }
 
+            displayStep();
+        }
+        
         m_Source.clip = m_NextButton;
         m_Source.Play();
     }

@@ -417,7 +417,7 @@ public class JSONParse : MonoBehaviour {
             return;
         }
 
-        Debug.Log(ndts.sop_on);
+        //Debug.Log(ndts.sop_on);
 
         m_SwitchUIElements[0].SetActive(GetSwitchState(ndts.h2o_off));
         m_SwitchUIElements[1].SetActive(GetSwitchState(ndts.sspe));
