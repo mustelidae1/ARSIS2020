@@ -86,9 +86,11 @@ public class MeshDataGatherer : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //divide the time equally between each mesh so all get sent at some point. Each minute
-        if (lastMeshDownlinkTime + 60.0f/ (float)SurfacesList.Count < Time.realtimeSinceStartup)
+        //divide the time equally between each mesh so all get sent at some point. Max it out at 30 seconds, where individual meshes get 60 between updates. Allows new meshes to get sent.
+        if (lastMeshDownlinkTime + (30.0f/(float)SurfacesList.Count) < Time.realtimeSinceStartup)
         {
+            if (PMT == null)
+                PMT = PhotonMeshTransfer.getSingleton();
             // you can't block here and wait for the camera capture.
             // Send the old data and trigger a new capture.
             // NetworkMeshSource.getSingleton()           
@@ -97,7 +99,7 @@ public class MeshDataGatherer : MonoBehaviour
                 SurfaceEntry item = SurfacesList[index];
                 if(item.m_BakedState== BakedState.Baked || item.m_BakedState == BakedState.UpdatePostBake)
                 {
-                    Debug.LogWarning("Mesh " + item.m_Id + " has baked state " + item.m_BakedState);
+                    //Debug.LogWarning("Mesh " + item.m_Id + " has baked state " + item.m_BakedState);
                     GameObject go = item.m_Surface;
                     if (go)
                     {
@@ -108,18 +110,19 @@ public class MeshDataGatherer : MonoBehaviour
 
                             if (MFer)
                             {
-                                Debug.LogWarning("Mesh " + item.m_Id + " has a mesh filter");
+                                //Debug.LogWarning("Mesh " + item.m_Id + " has a mesh filter");
                                 Mesh meesh = MFer.mesh;
                                 if (meesh&&meesh.triangles.Length>0)
                                 {
-                                    Debug.LogWarning("Mesh " + item.m_Id +" is of length "+ meesh.triangles.Length);
-                                    if (Time.realtimeSinceStartup - item.lastSentTime > 30.0f)
+                                    //Debug.LogWarning("Mesh " + item.m_Id +" is of length "+ meesh.triangles.Length);
+                                    if (Time.realtimeSinceStartup - item.lastSentTime > 60.0f)
                                     {
-
+                                        if(PMT==null)
+                                            Debug.LogWarning("PMT IS NULL! Can't send mesh " + item.m_Id);
                                         //just send one and return;
                                         item.lastSentTime = lastMeshDownlinkTime = Time.realtimeSinceStartup;
                                         PMT.sendMesh(go.transform.position, go.transform.rotation, meesh);
-                                        Debug.LogWarning("Mesh transer initiated on index " + item.m_Id);
+                                        //Debug.LogWarning("Mesh transer initiated on index " + item.m_Id);
                                         return;
                                     }
 
