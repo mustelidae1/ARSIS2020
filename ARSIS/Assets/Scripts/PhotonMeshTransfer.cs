@@ -32,12 +32,15 @@ public class PhotonMeshTransfer : MonoBehaviourPun
             testLastSendGametime = Time.realtimeSinceStartup;
 
             //generate arbitrary mesh data, in this case a triangle
-
-            //Vector3 pos = Random.insideUnitSphere * Random.Range(0, 100.0f);
-            //Vector3[] verts = { Random.insideUnitSphere, Random.insideUnitSphere, Random.insideUnitSphere };
-            //int[] indexors = { 0, 1, 2, 1, 0, 2 };
-            //PhotonView pv = this.photonView;
-            //pv.RPC("receiveMeshData", RpcTarget.All, pos, (object)verts, (object)indexors);
+            //2020-05-31 - this still fracking works - Dan
+            /*
+            Vector3 pos = Random.insideUnitSphere * Random.Range(0, 100.0f);
+            Vector3[] verts = { Random.insideUnitSphere, Random.insideUnitSphere, Random.insideUnitSphere };
+            int[] indexors = { 0, 1, 2, 1, 0, 2 };
+            PhotonView pv = this.photonView;
+            Quaternion rot = this.gameObject.transform.rotation;
+            pv.RPC("receiveMeshData", RpcTarget.All, pos, (object)rot, (object)verts, (object)indexors);
+            */
         }
     }
 

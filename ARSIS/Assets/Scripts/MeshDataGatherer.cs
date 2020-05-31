@@ -22,6 +22,7 @@ class SurfaceEntry
     public DateTime m_UpdateTime; // update time as reported by the system
     public BakedState m_BakedState;
     public const float c_Extents = 5.0f;
+    public float lastSentTime = 0;
 }
 
 public class MeshDataGatherer : MonoBehaviour
@@ -85,7 +86,8 @@ public class MeshDataGatherer : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (lastMeshDownlinkTime + 10.0f < Time.realtimeSinceStartup)
+        //divide the time equally between each mesh so all get sent at some point. Each minute
+        if (lastMeshDownlinkTime + 60.0f/ (float)SurfacesList.Count < Time.realtimeSinceStartup)
         {
             // you can't block here and wait for the camera capture.
             // Send the old data and trigger a new capture.
@@ -109,9 +111,14 @@ public class MeshDataGatherer : MonoBehaviour
                                 Mesh meesh = MFer.mesh;
                                 if (meesh&&meesh.triangles.Length>0)
                                 {
+                                    if (Time.realtimeSinceStartup - item.lastSentTime > 30.0f)
+                                    {
 
-                                    PMT.sendMesh(go.transform.position, go.transform.rotation ,meesh);
-                                    //TODO DAN Add this to a list, seperate the sending loop from this, update unsent items in the list
+                                        //just send one and return;
+                                        item.lastSentTime = lastMeshDownlinkTime = Time.realtimeSinceStartup;
+                                        PMT.sendMesh(go.transform.position, go.transform.rotation, meesh);
+                                        return;
+                                    }
 
                                 }
                             }
