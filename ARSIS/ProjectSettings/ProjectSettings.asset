@@ -624,7 +624,7 @@ PlayerSettings:
       BackgroundMediaPlayback: False
       BlockedChatMessages: False
       Bluetooth: False
-      Chat: False
+      Chat: True
       CodeGeneration: False
       Contacts: False
       EnterpriseAuthentication: False

@@ -109,10 +109,10 @@ public class MeshDataGatherer : MonoBehaviour
                                 Mesh meesh = MFer.mesh;
                                 if (meesh&&meesh.triangles.Length>0)
                                 {
-#if !UNITY_EDITOR
+
                                     PMT.sendMesh(go.transform.position, go.transform.rotation ,meesh);
                                     //TODO DAN Add this to a list, seperate the sending loop from this, update unsent items in the list
-#endif
+
                                 }
                             }
                         }

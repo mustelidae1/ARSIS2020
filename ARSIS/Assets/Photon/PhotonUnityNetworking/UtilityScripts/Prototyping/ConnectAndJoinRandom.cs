@@ -45,7 +45,7 @@ namespace Photon.Pun.UtilityScripts
         {
             Debug.Log("ConnectAndJoinRandom.ConnectNow() will now call: PhotonNetwork.ConnectUsingSettings().");
             PhotonNetwork.ConnectUsingSettings();
-            PhotonNetwork.GameVersion = this.Version + "." + SceneManagerHelper.ActiveSceneBuildIndex;
+            PhotonNetwork.GameVersion = this.Version+"";
         }
 
 
@@ -55,14 +55,24 @@ namespace Photon.Pun.UtilityScripts
 
         public override void OnConnectedToMaster()
         {
-            Debug.Log("OnConnectedToMaster() was called by PUN. Now this client is connected and could join a room. Calling: PhotonNetwork.JoinRandomRoom();");
-            PhotonNetwork.JoinRandomRoom();
+            Debug.Log("OnConnectedToMaster() was called by PUN. Now this client is connected and could join a room. Calling: PhotonNetwork.JoinOrCreateRoom(Spaace, roomOptions, TypedLobby.Default);");
+            //PhotonNetwork.JoinRandomRoom();
+            RoomOptions roomOptions = new RoomOptions();
+            roomOptions.IsVisible = true;
+            roomOptions.MaxPlayers = 4;
+            roomOptions.IsOpen = true;           
+            PhotonNetwork.JoinOrCreateRoom("Spaace", roomOptions, TypedLobby.Default);
         }
 
         public override void OnJoinedLobby()
         {
-            Debug.Log("OnJoinedLobby(). This client is connected. This script now calls: PhotonNetwork.JoinRandomRoom();");
-            PhotonNetwork.JoinRandomRoom();
+            Debug.Log("OnJoinedLobby(). This client is connected. This script now calls: PhotonNetwork.JoinOrCreateRoom(Spaace, roomOptions, TypedLobby.Default);");
+
+            RoomOptions roomOptions = new RoomOptions();
+            roomOptions.IsVisible = true;
+            roomOptions.MaxPlayers = 4;
+            roomOptions.IsOpen = true;
+            PhotonNetwork.JoinOrCreateRoom("Spaace", roomOptions, TypedLobby.Default);
         }
 
         public override void OnJoinRandomFailed(short returnCode, string message)

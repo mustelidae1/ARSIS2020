@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -443,7 +443,6 @@ GameObject:
   - component: {fileID: 1957333364}
   - component: {fileID: 1957333363}
   - component: {fileID: 1957333362}
-  - component: {fileID: 1957333361}
   - component: {fileID: 1957333367}
   - component: {fileID: 1957333366}
   - component: {fileID: 1957333368}
@@ -454,18 +453,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1957333361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1957333360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 061d0cdb2800f0a4295330da5def89d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &1957333362
 BoxCollider:
   m_ObjectHideFlags: 0
