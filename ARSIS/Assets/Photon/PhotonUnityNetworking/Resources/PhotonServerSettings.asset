@@ -16,16 +16,18 @@ MonoBehaviour:
     AppIdRealtime: f86d485f-de24-414a-b8d8-86cb28689862
     AppIdChat: 
     AppIdVoice: 
-    AppVersion: 
+    AppVersion: 1
     UseNameServer: 1
-    FixedRegion: 
+    FixedRegion: usw
     Server: 
     Port: 0
     Protocol: 0
-    EnableLobbyStatistics: 0
+    AuthMode: 0
+    EnableLobbyStatistics: 1
     NetworkLogging: 1
+  DevRegion: 
   PunLogging: 0
-  EnableSupportLogger: 0
+  EnableSupportLogger: 1
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
@@ -35,5 +37,8 @@ MonoBehaviour:
   - Fire
   - RespawnSpaceship
   - receiveMeshData
+  - receiveLineRenderer
+  - receiveLineRendererUndo
   DisableAutoOpenWizard: 1
-  ShowSettings: 0
+  ShowSettings: 1
+  DevRegionSetOnce: 0

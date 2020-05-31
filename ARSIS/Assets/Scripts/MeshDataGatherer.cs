@@ -22,6 +22,7 @@ class SurfaceEntry
     public DateTime m_UpdateTime; // update time as reported by the system
     public BakedState m_BakedState;
     public const float c_Extents = 5.0f;
+    public float lastSentTime = 0;
 }
 
 public class MeshDataGatherer : MonoBehaviour
@@ -38,7 +39,7 @@ public class MeshDataGatherer : MonoBehaviour
     // This is the material with which the baked surfaces are drawn.  
     public Material m_drawMat;
 
-    bool isRendering = true; 
+    bool isRendering = false; 
 
     // This flag is used to postpone requests if a bake is in progress.  Baking mesh
     // data can take multiple frames.  This sample prioritizes baking request
@@ -85,8 +86,11 @@ public class MeshDataGatherer : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (lastMeshDownlinkTime + 10.0f < Time.realtimeSinceStartup)
+        //divide the time equally between each mesh so all get sent at some point. Max it out at 30 seconds, where individual meshes get 60 between updates. Allows new meshes to get sent.
+        if (lastMeshDownlinkTime + (30.0f/(float)SurfacesList.Count) < Time.realtimeSinceStartup)
         {
+            if (PMT == null)
+                PMT = PhotonMeshTransfer.getSingleton();
             // you can't block here and wait for the camera capture.
             // Send the old data and trigger a new capture.
             // NetworkMeshSource.getSingleton()           
@@ -95,6 +99,7 @@ public class MeshDataGatherer : MonoBehaviour
                 SurfaceEntry item = SurfacesList[index];
                 if(item.m_BakedState== BakedState.Baked || item.m_BakedState == BakedState.UpdatePostBake)
                 {
+                    //Debug.LogWarning("Mesh " + item.m_Id + " has baked state " + item.m_BakedState);
                     GameObject go = item.m_Surface;
                     if (go)
                     {
@@ -105,14 +110,22 @@ public class MeshDataGatherer : MonoBehaviour
 
                             if (MFer)
                             {
-
+                                //Debug.LogWarning("Mesh " + item.m_Id + " has a mesh filter");
                                 Mesh meesh = MFer.mesh;
                                 if (meesh&&meesh.triangles.Length>0)
                                 {
-#if !UNITY_EDITOR
-                                    PMT.sendMesh(go.transform.position, go.transform.rotation ,meesh);
-                                    //TODO DAN Add this to a list, seperate the sending loop from this, update unsent items in the list
-#endif
+                                    //Debug.LogWarning("Mesh " + item.m_Id +" is of length "+ meesh.triangles.Length);
+                                    if (Time.realtimeSinceStartup - item.lastSentTime > 60.0f)
+                                    {
+                                        if(PMT==null)
+                                            Debug.LogWarning("PMT IS NULL! Can't send mesh " + item.m_Id);
+                                        //just send one and return;
+                                        item.lastSentTime = lastMeshDownlinkTime = Time.realtimeSinceStartup;
+                                        PMT.sendMesh(go.transform.position, go.transform.rotation, meesh);
+                                        //Debug.LogWarning("Mesh transer initiated on index " + item.m_Id);
+                                        return;
+                                    }
+
                                 }
                             }
                         }
