@@ -16711,6 +16711,7 @@ GameObject:
   - component: {fileID: 1324101192}
   - component: {fileID: 1324101195}
   - component: {fileID: 1324101191}
+  - component: {fileID: 1324101196}
   m_Layer: 0
   m_Name: PhotonMeshManager
   m_TagString: Untagged
@@ -16813,6 +16814,20 @@ MonoBehaviour:
   meshPrefab: {fileID: 2781801531759310858, guid: 45e4d2eb9b339e544801d152aef53f85,
     type: 3}
   meshMaterial: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+--- !u!114 &1324101196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324101189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b135b0e1d256894f9527fd6d94d6c5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lineRendererDefaultMaterial: {fileID: 2100000, guid: bdaddec689357db4ea505c9f4c1b3a10,
+    type: 2}
 --- !u!1 &1325584261
 GameObject:
   m_ObjectHideFlags: 0
