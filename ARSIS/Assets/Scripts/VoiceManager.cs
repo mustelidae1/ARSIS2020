@@ -54,6 +54,9 @@ public class VoiceManager : MonoBehaviour
     float dictationTimer = 5.0f;
     bool dictationIsOn = false;
 
+    public delegate void onCapture();
+    public onCapture captureEvent; 
+
     void Start()
     {
         S = this;
@@ -479,6 +482,8 @@ public class VoiceManager : MonoBehaviour
 
         m_Source.clip = m_ZoomOut;
         m_Source.Play();
+
+        captureEvent.Invoke();
     }
 
     public void Toggle()

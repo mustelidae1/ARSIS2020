@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Manages field notes data.  
@@ -20,11 +21,16 @@ public class FieldNotesManager : MonoBehaviour
 
     public bool inProgress = false;
 
-    public ResponseRepository savedResponses; 
+    public ResponseRepository savedResponses;
+
+    private bool waitingForPicture = false;
+
+    public RawImage test;
 
     void Start()
     {
-        s = this; 
+        s = this;
+        waitingForPicture = false;
 
         Question first = new Question("What is the type of the sample?", new string[] { "rock", "regolith" });
         
@@ -36,13 +42,16 @@ public class FieldNotesManager : MonoBehaviour
         firstQuestion = first;
         currentQuestion = first;
 
-        LoadFile(); 
+        LoadFile();
+
+        VoiceManager.S.captureEvent += confirmationMessage;  
     }
 
     public void showFirstQuestion()
     {
         currentQuestion = firstQuestion;
-        inProgress = true; 
+        inProgress = true;
+        waitingForPicture = false;
 
         MenuController.s.m_newFieldNote.GetComponent<FieldNoteDisplay>().setQuestion(currentQuestion.prompt, currentQuestion.options, currentQuestion.variableNextQuestion());
 
@@ -54,6 +63,7 @@ public class FieldNotesManager : MonoBehaviour
 
     public void nextQuestion()
     {
+        waitingForPicture = false;
         if (selectedAnswer == "") return;
         savedResponses.responses[savedResponses.responses.Count-1].addEntry(currentQuestion.prompt, selectedAnswer); 
         if (!currentQuestion.variableNextQuestion())
@@ -86,20 +96,28 @@ public class FieldNotesManager : MonoBehaviour
 
     public void finalQuestion()
     {
-        //MenuController.s.m_newFieldNote.GetComponent<FieldNoteDisplay>().displayPicturePrompt();
+        MenuController.s.m_newFieldNote.GetComponent<FieldNoteDisplay>().displayPicturePrompt();
 
-        SaveFile();
+        waitingForPicture = true; 
 
-        MenuController.s.m_newFieldNote.GetComponent<FieldNoteDisplay>().displayFinalQuestion();
-        inProgress = false;
+        // Note: at this point we wait for the capture delegate in VoiceManager to go to the next step, which is confirmationMessage() 
     }
 
     public void confirmationMessage()
     {
+        if (!waitingForPicture) return;
+
+        Debug.Log("We got to the confirmation message");
+
+        Texture picture = MenuController.s.m_newFieldNote.GetComponent<FieldNoteDisplay>().getPicture();
+        test.texture = picture;
+        savedResponses.responses[savedResponses.responses.Count - 1].picture = picture;
+
         SaveFile();
 
         MenuController.s.m_newFieldNote.GetComponent<FieldNoteDisplay>().displayFinalQuestion();
         inProgress = false;
+        waitingForPicture = false; 
     }
 
     public void selectFirstAnswer()
@@ -132,20 +150,20 @@ public class FieldNotesManager : MonoBehaviour
 
     public void SaveFile()
     {
-        string destination = Application.persistentDataPath + "/responserepo.dat";
+       /* string destination = Application.persistentDataPath + "/responserepo.dat";
         FileStream file;
 
         if (File.Exists(destination)) file = File.OpenWrite(destination);
-        else file = File.Create(destination);
+        else file = File.Create(destination);        
 
         BinaryFormatter bf = new BinaryFormatter();
         bf.Serialize(file, savedResponses);
-        file.Close();
+        file.Close();*/
     }
 
     public void LoadFile()
     {
-        string destination = Application.persistentDataPath + "/responserepo.dat";
+        /*string destination = Application.persistentDataPath + "/responserepo.dat";
         FileStream file;
 
         if (File.Exists(destination)) file = File.OpenRead(destination);
@@ -159,14 +177,15 @@ public class FieldNotesManager : MonoBehaviour
         ResponseRepository data = (ResponseRepository)bf.Deserialize(file);
         file.Close();
 
-        savedResponses = data; 
+        savedResponses = data; */
     }
 
     public void ClearAllSavedResponses()
     {
         string destination = Application.persistentDataPath + "/responserepo.dat";
         if (File.Exists(destination)) File.Delete(destination);
-        LoadFile(); 
+        LoadFile();
+        savedResponses = new ResponseRepository();  
         MenuController.s.m_fieldNotes.GetComponent<FieldNotesListDisplay>().showFieldNotes(savedResponses);
     }
 }
@@ -244,7 +263,7 @@ public class Response
 {
     public DateTime date; 
     public List<Entry> entries;
-    public byte[] picture; 
+    public Texture picture; 
 
     public Response()
     {

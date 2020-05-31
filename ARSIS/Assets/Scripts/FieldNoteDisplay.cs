@@ -11,7 +11,8 @@ public class FieldNoteDisplay : MonoBehaviour
     public GameObject button3;
     public Text promptText;
     public GameObject instructionsText;
-    public RawImage image; 
+    public RawImage image;
+    public Texture picturePrompt; 
 
     public void setQuestion(string text, string[] options, bool skippable)
     {
@@ -62,11 +63,17 @@ public class FieldNoteDisplay : MonoBehaviour
     public void displayPicturePrompt()
     {
         image.gameObject.SetActive(true);
+        image.texture = picturePrompt; 
         skipButton.SetActive(false);
         button1.SetActive(false);
         button2.SetActive(false);
         button3.SetActive(false);
         instructionsText.SetActive(false);
         promptText.text = "Take a picture of the sample using \"Adele Capture\"";
+    }
+
+    public Texture getPicture()
+    {
+        return image.texture; 
     }
 }

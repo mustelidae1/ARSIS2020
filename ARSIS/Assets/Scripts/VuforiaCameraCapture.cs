@@ -155,7 +155,7 @@ public class VuforiaCameraCapture : MonoBehaviour
                 {
                     string imageInfo = mPixelFormat + " image: \n";
                     imageInfo += " size: " + image.Width + " x " + image.Height + "\n";
-                    imageInfo += " bufferSize: " + image.BufferWidth + " x " + image.BufferHeight + "\n";
+                    imageInfo += " bufferSize: " + image.BufferWidth + " x " + image.BufferHeight + "\n";                    
                     imageInfo += " stride: " + image.Stride;
                     Debug.Log(imageInfo);
                     byte[] pixels = image.Pixels;
@@ -292,7 +292,7 @@ public class VuforiaCameraCapture : MonoBehaviour
     /// </summary>
     private void RegisterFormat()
     {
-    /*    #if !UNITY_EDITOR
+       #if !UNITY_EDITOR
                 if (CameraDevice.Instance.SetFrameFormat(mPixelFormat, true))
                 {
                     Debug.Log("Successfully registered camera pixel format " + mPixelFormat.ToString());
@@ -303,7 +303,7 @@ public class VuforiaCameraCapture : MonoBehaviour
                     Debug.LogError("Failed to register camera pixel format " + mPixelFormat.ToString());
                     mFormatRegistered = false;
                 }
-        #endif  */
+        #endif  
     }
 
     private void OnVuforiaStarted()

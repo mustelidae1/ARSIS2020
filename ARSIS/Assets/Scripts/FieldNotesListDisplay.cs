@@ -13,6 +13,7 @@ public class FieldNotesListDisplay : MonoBehaviour
     public GameObject detailPanel;
     public Text detailTitle;
     public Text detailBody;
+    public RawImage rawImage; 
 
     public GameObject deleteButton;
     public GameObject newButton;
@@ -59,7 +60,13 @@ public class FieldNotesListDisplay : MonoBehaviour
             body += e.prompt + "\t" + e.response + "\n"; 
         }
 
-        detailBody.text = body; 
+        detailBody.text = body;
+
+        //byte[] image = response.picture;       
+        //Texture2D tex = new Texture2D(2, 2, TextureFormat.RGB24, false);
+        //tex.LoadRawTextureData(image);
+        //tex.Apply();
+        rawImage.texture = response.picture;
     }
 
     // TODO remove all listeners on deactivate?
