@@ -97,6 +97,7 @@ public class MeshDataGatherer : MonoBehaviour
                 SurfaceEntry item = SurfacesList[index];
                 if(item.m_BakedState== BakedState.Baked || item.m_BakedState == BakedState.UpdatePostBake)
                 {
+                    Debug.LogWarning("Mesh " + item.m_Id + " has baked state " + item.m_BakedState);
                     GameObject go = item.m_Surface;
                     if (go)
                     {
@@ -107,16 +108,18 @@ public class MeshDataGatherer : MonoBehaviour
 
                             if (MFer)
                             {
-
+                                Debug.LogWarning("Mesh " + item.m_Id + " has a mesh filter");
                                 Mesh meesh = MFer.mesh;
                                 if (meesh&&meesh.triangles.Length>0)
                                 {
+                                    Debug.LogWarning("Mesh " + item.m_Id +" is of length "+ meesh.triangles.Length);
                                     if (Time.realtimeSinceStartup - item.lastSentTime > 30.0f)
                                     {
 
                                         //just send one and return;
                                         item.lastSentTime = lastMeshDownlinkTime = Time.realtimeSinceStartup;
                                         PMT.sendMesh(go.transform.position, go.transform.rotation, meesh);
+                                        Debug.LogWarning("Mesh transer initiated on index " + item.m_Id);
                                         return;
                                     }
 
