@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Asn1;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -33,11 +34,28 @@ public class FieldNotesManager : MonoBehaviour
         waitingForPicture = false;
 
         Question first = new Question("What is the type of the sample?", new string[] { "rock", "regolith" });
-        
-        Question rockFirst = new Question("Color/tone", new string[] { "gray", "light red" });
-        Question regolithFirst = new Question("First regolith question", new string[] { "option1", "option2" });
 
-        first.setNextQuestions(new Question[] { rockFirst, regolithFirst });
+        Question genSize = new Question("General size", new string[] { "small", "medium", "large" }); 
+        Question genColor = new Question("Color/tone", new string[] { "gray", "red", "black", "light-toned" });
+        Question otherColor = new Question("Other color descriptor", new string[] { "banded", "streaked", "flat", "shiny" });
+        Question texture = new Question("Texture", new string[] { "fine", "medium", "coarse" });
+        Question otherTexture = new Question("Other texture descriptor", new string[] { "vesicular", "glassy", "metallic" });
+        Question durability = new Question("Durability", new string[] { "hard to break", "crumbles" });
+
+        genSize.setNextQuestion(genColor);
+        genColor.setNextQuestion(otherColor);
+        otherColor.setNextQuestion(texture);
+        otherTexture.setNextQuestion(durability); 
+
+        Question genColorReg = new Question("Color/tone", new string[] { "gray", "red", "black", "light-toned" });
+        Question otherColorReg = new Question("Other color descriptor", new string[] { "banded", "streaked", "flat", "shiny" });
+        Question grainSize = new Question("Grain size", new string[] { "fine", "medium", "coarse" });
+        Question grainType = new Question("Grain type", new string[] { "clay", "silt", "sand", "gravel" });
+
+        genColorReg.setNextQuestion(otherColorReg);
+        otherColorReg.setNextQuestion(grainSize); 
+
+        first.setNextQuestions(new Question[] { genColor, genColorReg });
 
         firstQuestion = first;
         currentQuestion = first;
@@ -136,6 +154,24 @@ public class FieldNotesManager : MonoBehaviour
     {
         selectedAnswer = currentQuestion.options[2];
         currentSelectionIndex = 2; 
+    }
+
+    public void selectFourthAnswer()
+    {
+        selectedAnswer = currentQuestion.options[3];
+        currentSelectionIndex = 3; 
+    }
+
+    public void selectFifthAnswer()
+    {
+        selectedAnswer = currentQuestion.options[4];
+        currentSelectionIndex = 4; 
+    }
+
+    public void selectSixthAnswer()
+    {
+        selectedAnswer = currentQuestion.options[5];
+        currentSelectionIndex = 5; 
     }
 
     public void setSkipped()

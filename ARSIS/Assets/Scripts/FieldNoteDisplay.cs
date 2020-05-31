@@ -9,6 +9,10 @@ public class FieldNoteDisplay : MonoBehaviour
     public GameObject button1;
     public GameObject button2;
     public GameObject button3;
+    public GameObject button4;
+    public GameObject button5;
+    public GameObject button6;
+    public GameObject[] buttons; 
     public Text promptText;
     public GameObject instructionsText;
     public RawImage image;
@@ -18,28 +22,16 @@ public class FieldNoteDisplay : MonoBehaviour
     {
         image.gameObject.SetActive(false); 
         promptText.text = text;
-        if (options.Length == 2)
+        instructionsText.SetActive(true); 
+        for (int i = 1; i <= options.Length; i++)
         {
-            button3.SetActive(false);
-            button1.SetActive(true);
-            button2.SetActive(true); 
-            instructionsText.SetActive(true); 
-            button1.GetComponentInChildren<Text>().text = options[0];
-            button1.GetComponent<SelectableObj>().resetCommand(options[0]); 
-            button2.GetComponentInChildren<Text>().text = options[1];
-            button2.GetComponent<SelectableObj>().resetCommand(options[1]);
-        } else if (options.Length == 3)
+            buttons[i-1].SetActive(true);
+            buttons[i - 1].GetComponentInChildren<Text>().text = options[i - 1];
+            buttons[i - 1].GetComponentInChildren<SelectableObj>().resetCommand(options[i - 1]); 
+        }
+        for (int j = options.Length + 1; j <= 6; j++)
         {
-            button3.SetActive(true);
-            button1.SetActive(true);
-            button2.SetActive(true);
-            instructionsText.SetActive(true);
-            button1.GetComponentInChildren<Text>().text = options[0];
-            button1.GetComponent<SelectableObj>().resetCommand(options[0]);
-            button2.GetComponentInChildren<Text>().text = options[1];
-            button2.GetComponent<SelectableObj>().resetCommand(options[1]);
-            button3.GetComponentInChildren<Text>().text = options[2];
-            button3.GetComponent<SelectableObj>().resetCommand(options[2]);
+            buttons[j - 1].SetActive(false); 
         }
         if (skippable)
         {
