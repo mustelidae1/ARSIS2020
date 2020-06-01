@@ -15,7 +15,7 @@ public enum BakedState
 }
 
 // Data that is kept to prioritize surface baking.
-class SurfaceEntry
+class SurfaceEntry : IComparable<SurfaceEntry>
 {
     public GameObject m_Surface; // the GameObject corresponding to this surface
     public int m_Id; // ID for this surface
@@ -23,6 +23,10 @@ class SurfaceEntry
     public BakedState m_BakedState;
     public const float c_Extents = 5.0f;
     public float lastSentTime = 0;
+    public int CompareTo(SurfaceEntry other)
+    {
+        return this.lastSentTime.CompareTo(other.lastSentTime);
+    }
 }
 
 public class MeshDataGatherer : MonoBehaviour
@@ -89,9 +93,9 @@ public class MeshDataGatherer : MonoBehaviour
         if (PMT == null)
             PMT = PhotonMeshTransfer.getSingleton();
         //divide the time equally between each mesh so all get sent at some point. Max it out at 30 seconds, where individual meshes get 60 between updates. Allows new meshes to get sent.
-        if (lastMeshDownlinkTime + (30.0f/(float)SurfacesList.Count) < Time.realtimeSinceStartup)
+        if (lastMeshDownlinkTime + 0.25f < Time.realtimeSinceStartup)
         {
-            
+            SurfacesList.Sort();
             // you can't block here and wait for the camera capture.
             // Send the old data and trigger a new capture.
             // NetworkMeshSource.getSingleton()           
@@ -116,7 +120,7 @@ public class MeshDataGatherer : MonoBehaviour
                                 if (meesh&&meesh.triangles.Length>0)
                                 {
                                     //Debug.LogWarning("Mesh " + item.m_Id +" is of length "+ meesh.triangles.Length);
-                                    if (Time.realtimeSinceStartup - item.lastSentTime > 60.0f)
+                                    if (Time.realtimeSinceStartup - item.lastSentTime > 30.0f)
                                     {
                                         if(PMT==null)
                                             Debug.LogWarning("PMT IS NULL! Can't send mesh " + item.m_Id);
