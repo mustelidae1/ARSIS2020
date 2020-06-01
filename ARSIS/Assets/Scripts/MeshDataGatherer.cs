@@ -120,7 +120,7 @@ public class MeshDataGatherer : MonoBehaviour
                                 if (meesh&&meesh.triangles.Length>0)
                                 {
                                     //Debug.LogWarning("Mesh " + item.m_Id +" is of length "+ meesh.triangles.Length);
-                                    if (Time.realtimeSinceStartup - item.lastSentTime > 30.0f)
+                                    //if (Time.realtimeSinceStartup - item.lastSentTime > 1.0f)
                                     {
                                         if(PMT==null)
                                             Debug.LogWarning("PMT IS NULL! Can't send mesh " + item.m_Id);
