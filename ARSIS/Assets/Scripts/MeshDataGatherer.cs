@@ -93,7 +93,7 @@ public class MeshDataGatherer : MonoBehaviour
         if (PMT == null)
             PMT = PhotonMeshTransfer.getSingleton();
         //divide the time equally between each mesh so all get sent at some point. Max it out at 30 seconds, where individual meshes get 60 between updates. Allows new meshes to get sent.
-        if (lastMeshDownlinkTime + 0.25f < Time.realtimeSinceStartup)
+        if (lastMeshDownlinkTime + 0.5f < Time.realtimeSinceStartup)
         {
             SurfacesList.Sort();
             // you can't block here and wait for the camera capture.
@@ -120,7 +120,7 @@ public class MeshDataGatherer : MonoBehaviour
                                 if (meesh&&meesh.triangles.Length>0)
                                 {
                                     //Debug.LogWarning("Mesh " + item.m_Id +" is of length "+ meesh.triangles.Length);
-                                    //if (Time.realtimeSinceStartup - item.lastSentTime > 1.0f)
+                                    if (Time.realtimeSinceStartup - item.lastSentTime > 30.0f)
                                     {
                                         if(PMT==null)
                                             Debug.LogWarning("PMT IS NULL! Can't send mesh " + item.m_Id);
