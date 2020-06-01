@@ -96,8 +96,8 @@ public class MeshDataGatherer : MonoBehaviour
             return;
         if (PMT == null)
             PMT = PhotonMeshTransfer.getSingleton();
-        //divide the time equally between each mesh so all get sent at some point. Max it out at 30 seconds, where individual meshes get 60 between updates. Allows new meshes to get sent.
-        if (lastMeshDownlinkTime + 1.0f < Time.realtimeSinceStartup)
+        //DONT PISS OFF PHOTON BY SENDING TOO FREQUENTLY! THEY WILL KICK YOU!
+        if (lastMeshDownlinkTime + 1.1f < Time.realtimeSinceStartup)
         {
             SurfacesList.Sort();
             // you can't block here and wait for the camera capture.
@@ -148,7 +148,7 @@ public class MeshDataGatherer : MonoBehaviour
     void Update()
     {
         // Avoid calling Update on a SurfaceObserver too frequently.
-        if (m_lastUpdateTime + 5.0f < Time.realtimeSinceStartup)
+        if (m_lastUpdateTime + 15.0f < Time.realtimeSinceStartup)
         {
             // This block makes the observation volume follow the camera.
             Vector3 extents;

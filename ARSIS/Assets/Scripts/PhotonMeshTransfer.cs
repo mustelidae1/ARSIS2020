@@ -58,6 +58,7 @@ public class PhotonMeshTransfer : MonoBehaviourPun
         int[] indicies = mesh.GetIndices(0);
         PhotonView pv = this.photonView;
         pv.RPC("receiveMeshData", RpcTarget.Others, pos, (object) rot, (object)vertout, (object)indicies);
+        
     }
 
 
