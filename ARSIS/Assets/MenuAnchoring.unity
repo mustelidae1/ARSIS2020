@@ -5511,6 +5511,7 @@ GameObject:
   - component: {fileID: 387355768}
   - component: {fileID: 387355767}
   - component: {fileID: 387355766}
+  - component: {fileID: 387355771}
   m_Layer: 0
   m_Name: PhotonManager
   m_TagString: Untagged
@@ -5613,6 +5614,20 @@ MonoBehaviour:
   viewIdField: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &387355771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 387355764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b4fbb7b9b9694d4d9dea57602cb598d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AutoConnect: 1
+  Version: 1
 --- !u!1 &395020438
 GameObject:
   m_ObjectHideFlags: 0
