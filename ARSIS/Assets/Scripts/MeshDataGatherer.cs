@@ -6,6 +6,8 @@ using UnityEngine.Assertions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Realtime;
+using Photon.Pun;
 
 public enum BakedState
 {
@@ -90,10 +92,12 @@ public class MeshDataGatherer : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!PhotonNetwork.InRoom)
+            return;
         if (PMT == null)
             PMT = PhotonMeshTransfer.getSingleton();
         //divide the time equally between each mesh so all get sent at some point. Max it out at 30 seconds, where individual meshes get 60 between updates. Allows new meshes to get sent.
-        if (lastMeshDownlinkTime + 0.5f < Time.realtimeSinceStartup)
+        if (lastMeshDownlinkTime + 1.0f < Time.realtimeSinceStartup)
         {
             SurfacesList.Sort();
             // you can't block here and wait for the camera capture.

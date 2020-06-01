@@ -28,6 +28,8 @@ public class PhotonMeshTransfer : MonoBehaviourPun
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!PhotonNetwork.InRoom)
+            return;
         float timeDif = Time.realtimeSinceStartup - testLastSendGametime;
         if(timeDif> 0.1f)
         {
@@ -48,6 +50,8 @@ public class PhotonMeshTransfer : MonoBehaviourPun
 
     public void sendMesh(Vector3 pos, Quaternion rot, Mesh mesh)
     {
+        if (!PhotonNetwork.InRoom)
+            return;
         List<Vector3> verts = new List<Vector3>();
         mesh.GetVertices(verts);
         Vector3[] vertout = verts.ToArray();
