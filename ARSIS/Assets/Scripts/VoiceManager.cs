@@ -112,7 +112,7 @@ public class VoiceManager : MonoBehaviour
         _keywords.Add("Adele Toggle", Toggle);
 
         ///////////////////// Music /////////////////////
-        _keywords.Add("Adele Hello", PlayAdele);
+        //_keywords.Add("Adele Hello", PlayAdele);
         //_keywords.Add("Adele Africa", PlayAfrica);
         //_keywords.Add("Adele Skyfall", PlaySkyfall);
         //_keywords.Add("Adele Space Oddity", PlaySpaceOddity);
@@ -134,16 +134,6 @@ public class VoiceManager : MonoBehaviour
         _keywords.Add("Adele Diagram 3", Diagram3);
         _keywords.Add("Adele Diagram 4", Diagram4);
         _keywords.Add("Adele Diagram 5", Diagram5);
-
-        /////////////////// Easter Eggs ////////////////////  <-- my sister made me add this 
-        _keywords.Add("fuck", BadWord);
-        _keywords.Add("shit", BadWord);
-        _keywords.Add("Bad Word", BadWord);
-        _keywords.Add("bitch", BadWord);
-        _keywords.Add("damn", BadWord);
-        _keywords.Add("bloody hell", BadWord);
-        _keywords.Add("hell", BadWord);
-        _keywords.Add("darn it", BadWord); 
 
         #endregion
 

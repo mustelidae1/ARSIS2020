@@ -6,12 +6,6 @@ using UnityEngine.UI;
 public class FieldNoteDisplay : MonoBehaviour
 {
     public GameObject skipButton;
-    public GameObject button1;
-    public GameObject button2;
-    public GameObject button3;
-    public GameObject button4;
-    public GameObject button5;
-    public GameObject button6;
     public GameObject[] buttons; 
     public Text promptText;
     public GameObject instructionsText;
@@ -45,9 +39,10 @@ public class FieldNoteDisplay : MonoBehaviour
     public void displayFinalQuestion()
     {
         skipButton.SetActive(false);
-        button1.SetActive(false);
-        button2.SetActive(false);
-        button3.SetActive(false);
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].SetActive(false); 
+        }
         instructionsText.SetActive(false); 
         promptText.text = "Field note recorded!"; 
     }
@@ -57,9 +52,10 @@ public class FieldNoteDisplay : MonoBehaviour
         image.gameObject.SetActive(true);
         image.texture = picturePrompt; 
         skipButton.SetActive(false);
-        button1.SetActive(false);
-        button2.SetActive(false);
-        button3.SetActive(false);
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            buttons[i].SetActive(false);
+        }
         instructionsText.SetActive(false);
         promptText.text = "Take a picture of the sample using \"Adele Capture\"";
     }
