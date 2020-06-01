@@ -6423,7 +6423,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1588256452}
   m_Father: {fileID: 1848663718}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6455,6 +6456,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineRendererDefaultMaterial: {fileID: 2100000, guid: bdaddec689357db4ea505c9f4c1b3a10,
     type: 2}
+  ArrowPrefab: {fileID: 3818922802829950297, guid: c2fb52a843cfda64ab538f5602256fab,
+    type: 3}
+  CirclePrefab: {fileID: 5945362338792759776, guid: 4249dc50ac25b0442af247cc821f7de8,
+    type: 3}
+  RectanglePrefab: {fileID: 4642763115069766484, guid: 720f99baefaa3a5459ff5d8e2255c46b,
+    type: 3}
+  XPrefab: {fileID: 1271365917134857176, guid: 3b44624f9c154f94382242d7e2265f84, type: 3}
+  crewMemberGO: {fileID: 1588256451}
+  newCrewMemberPos: {x: 0, y: 0, z: 0}
+  newCrewMemberRot: {x: 0, y: 0, z: 0, w: 1}
+  headsetCameraGO: {fileID: 333976186}
+  lastHeadsetSendUpdate: 0
 --- !u!114 &387355768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20920,6 +20933,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1578911621}
   m_CullTransparentMesh: 0
+--- !u!1 &1588256451
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1588256452}
+  m_Layer: 0
+  m_Name: CrewMemberLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1588256452
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588256451}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 7.4570923, y: 0.18445873, z: 3.965446}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 387355765}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1594503769
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,20 @@ public class PhotonRPCLinks : MonoBehaviourPun
     public Material lineRendererDefaultMaterial = null;
     private Stack<LineRenderer> lineRenderers = null;
 
+    public GameObject ArrowPrefab = null;
+    public GameObject CirclePrefab = null;
+    public GameObject RectanglePrefab = null;
+    public GameObject XPrefab = null;
+
+    public GameObject crewMemberGO = null;
+    public Vector3 newCrewMemberPos = Vector3.zero;
+    public Quaternion newCrewMemberRot = Quaternion.identity;
+
+    public GameObject headsetCameraGO = null;
+    public float lastHeadsetSendUpdate = 0;
+    public enum iconType { ARROW, CIRCLE, RECTANGLE, X };
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +34,24 @@ public class PhotonRPCLinks : MonoBehaviourPun
         else
             Debug.LogError("PhotonRPCLinks DUPLICATE SINGLETONS ATTEMPTED!");
         lineRenderers = new Stack<LineRenderer>();
+    }
+
+    private void FixedUpdate()
+    {
+        //Interpolate new crew member position
+        if (!crewMemberGO)
+            Debug.LogError("crewMemberGO not configured properly on RPC Link");
+        crewMemberGO.transform.position = Vector3.Lerp(crewMemberGO.transform.position, newCrewMemberPos, 0.01f);
+        crewMemberGO.transform.rotation = Quaternion.Lerp(crewMemberGO.transform.rotation, newCrewMemberRot, 0.01f);
+
+        if(headsetCameraGO)//if this is filled then we have are the crew member side
+        {
+            if(lastHeadsetSendUpdate+1.0f<Time.realtimeSinceStartup)
+            {
+                lastHeadsetSendUpdate = Time.realtimeSinceStartup;
+                sendCrewMemberLocation(headsetCameraGO.transform.position, headsetCameraGO.transform.rotation);
+            }
+        }
     }
 
     public void SendLineRenderer(LineRenderer lr)
@@ -80,5 +112,56 @@ public class PhotonRPCLinks : MonoBehaviourPun
         LineRenderer lr = lineRenderers.Pop();
         lr.enabled = false;
         Destroy(lr.gameObject);
+    }
+
+    public void sendIconSpawn(Vector3 pos, Quaternion rot, iconType type)
+    {
+        PhotonView pv = this.photonView;
+        pv.RPC("receiveIconSpawn", RpcTarget.All, (object)pos, (object)rot, (object)type);
+    }
+
+    [PunRPC]
+    public void receiveIconSpawn(Vector3 pos, Quaternion rot, iconType type)
+    {
+        GameObject selectedPrefab = null;
+        switch(type)
+        {
+            case (iconType.ARROW):
+                selectedPrefab = ArrowPrefab;
+                break;
+            case (iconType.CIRCLE):
+                selectedPrefab = CirclePrefab;
+                break;
+            case (iconType.RECTANGLE):
+                selectedPrefab = RectanglePrefab;
+                break;
+            case (iconType.X):
+                selectedPrefab = XPrefab;
+                break;
+            default:
+                selectedPrefab = null;
+                Debug.LogError("THE WRONG ENUM WAS USED SOMEHOW! MIND BLOWN MEME GOES HERE");
+                break;
+        };
+
+        if (selectedPrefab == null)
+        {
+            Debug.LogError("PREFABS MISCONFIGURED ON RPC LINKS");
+            return;
+        }
+        GameObject.Instantiate(selectedPrefab, pos, rot, this.transform);
+    }
+    public void sendCrewMemberLocation(Vector3 pos, Quaternion rot)
+    {
+        PhotonView pv = this.photonView;
+        pv.RPC("receiveCrewMemberLocation", RpcTarget.Others, (object)pos, (object)rot);
+    }
+    [PunRPC]
+    public void receiveCrewMemberLocation(Vector3 pos, Quaternion rot)
+    {
+        if (!crewMemberGO)
+            Debug.LogError("crewMemberGO not configured properly on RPC Link");
+        newCrewMemberPos = pos;
+        newCrewMemberRot = rot;
     }
 }
