@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
+using System;
+
 public class PhotonMeshTransfer : MonoBehaviourPun
 {
     public static PhotonMeshTransfer singleton = null;
@@ -76,7 +78,7 @@ public class PhotonMeshTransfer : MonoBehaviourPun
     }
 
     public static PhotonMeshTransfer getSingleton()
-    {
+    {       
         return singleton;
     }
 }

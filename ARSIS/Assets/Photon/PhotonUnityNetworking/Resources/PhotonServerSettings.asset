@@ -31,12 +31,12 @@ MonoBehaviour:
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
-  - ClickRpc
+  - receiveMeshData
   - DestroyRpc
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
-  - receiveMeshData
+  - ClickRpc
   - receiveLineRenderer
   - receiveLineRendererUndo
   DisableAutoOpenWizard: 1
