@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Realtime;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 
 public enum BakedState
 {
@@ -57,7 +58,7 @@ public class MeshDataGatherer : MonoBehaviour
     // more than every two seconds because doing so is potentially time-consuming.
     float m_lastUpdateTime;
     float lastMeshDownlinkTime = 0;
-
+    public int lastMeshSize = 0;
     public static MeshDataGatherer S; 
 
     void Start()
@@ -97,7 +98,7 @@ public class MeshDataGatherer : MonoBehaviour
         if (PMT == null)
             PMT = PhotonMeshTransfer.getSingleton();
         //DONT PISS OFF PHOTON BY SENDING TOO FREQUENTLY! THEY WILL KICK YOU!
-        if (lastMeshDownlinkTime + 1.1f < Time.realtimeSinceStartup)
+        if (lastMeshDownlinkTime + 0.01f*lastMeshSize*(ConnectAndJoinSpaace.disconnectCount+1) < Time.realtimeSinceStartup)
         {
             SurfacesList.Sort();
             // you can't block here and wait for the camera capture.
@@ -131,6 +132,7 @@ public class MeshDataGatherer : MonoBehaviour
                                         //just send one and return;
                                         item.lastSentTime = lastMeshDownlinkTime = Time.realtimeSinceStartup;
                                         PMT.sendMesh(go.transform.position, go.transform.rotation, meesh);
+                                        lastMeshSize = meesh.triangles.Length;
                                         //Debug.LogWarning("Mesh transer initiated on index " + item.m_Id);
                                         return;
                                     }
