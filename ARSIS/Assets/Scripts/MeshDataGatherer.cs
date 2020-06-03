@@ -122,6 +122,14 @@ public class MeshDataGatherer : MonoBehaviour
                                         //just send one and return;
                                         item.lastSentTime = lastMeshDownlinkTime = Time.realtimeSinceStartup;
                                         PMT.sendMesh(go.transform.position, go.transform.rotation, meesh);
+<<<<<<< Updated upstream
+=======
+                                        lastMeshSize = meesh.triangles.Length;
+
+                                        //add any meshes we send to the minimap
+                                        MiniMapHandler.getSingleton().addElement(meesh, go.transform.position, go.transform.rotation);
+
+>>>>>>> Stashed changes
                                         //Debug.LogWarning("Mesh transer initiated on index " + item.m_Id);
                                         return;
                                     }
