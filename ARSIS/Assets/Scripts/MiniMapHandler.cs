@@ -22,7 +22,8 @@ public class MiniMapHandler : MonoBehaviour
             Debug.LogError("Multiple minimaphandler singletons creation attempts were made. Much fail, very bad.");
         singleton = this;
         mapElements = new List<MapElement>();
-        startPosition = this.gameObject.transform.position;
+        //startPosition = this.gameObject.transform.localPosition;//why doesn't this work!?
+        startPosition = new Vector3(2.0f, 1.0f, 5.0f);
     }
 
     public static MiniMapHandler getSingleton()
@@ -36,10 +37,12 @@ public class MiniMapHandler : MonoBehaviour
     public void Update()
     {
         //movement with the player
+        
         miniMapAnchor.transform.position = new Vector3(
             startPosition.x - (PhotonRPCLinks.getSingleton().crewMemberGO.transform.position.x * miniMapAnchor.transform.localScale.x),
             startPosition.y - (PhotonRPCLinks.getSingleton().crewMemberGO.transform.position.z * miniMapAnchor.transform.localScale.z),
             startPosition.z);
+        
         //rotation with the player
         //miniMapAnchor.transform.rotation // the math is only making sense in my head a little bit right now. Dan tired.
 
