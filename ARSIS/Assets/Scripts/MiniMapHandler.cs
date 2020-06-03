@@ -9,6 +9,7 @@ public class MiniMapHandler : MonoBehaviour
     public List<MapElement> mapElements = null;
     public GameObject meshPrefab = null;
     public Material meshMaterial = null;
+    private Vector3 startPosition = Vector3.zero;
     public class MapElement
     {
         public GameObject myInstance = null;
@@ -21,6 +22,7 @@ public class MiniMapHandler : MonoBehaviour
             Debug.LogError("Multiple minimaphandler singletons creation attempts were made. Much fail, very bad.");
         singleton = this;
         mapElements = new List<MapElement>();
+        startPosition = this.gameObject.transform.position;
     }
 
     public static MiniMapHandler getSingleton()
@@ -29,6 +31,18 @@ public class MiniMapHandler : MonoBehaviour
             Debug.LogError("minimaphandler singleton accessed prior to creation");
 
         return singleton;
+    }
+
+    public void Update()
+    {
+        //movement with the player
+        miniMapAnchor.transform.position = new Vector3(
+            startPosition.x - (PhotonRPCLinks.getSingleton().crewMemberGO.transform.position.x * miniMapAnchor.transform.localScale.x),
+            startPosition.y - (PhotonRPCLinks.getSingleton().crewMemberGO.transform.position.z * miniMapAnchor.transform.localScale.z),
+            startPosition.z);
+        //rotation with the player
+        //miniMapAnchor.transform.rotation // the math is only making sense in my head a little bit right now. Dan tired.
+
     }
 
     public void addElement(Mesh mesh, Vector3 pos, Quaternion rot)
