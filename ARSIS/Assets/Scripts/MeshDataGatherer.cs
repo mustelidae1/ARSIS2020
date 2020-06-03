@@ -26,6 +26,7 @@ class SurfaceEntry : IComparable<SurfaceEntry>
     public BakedState m_BakedState;
     public const float c_Extents = 5.0f;
     public float lastSentTime = 0;
+    
     public int CompareTo(SurfaceEntry other)
     {
         return this.lastSentTime.CompareTo(other.lastSentTime);
@@ -59,7 +60,8 @@ public class MeshDataGatherer : MonoBehaviour
     float m_lastUpdateTime;
     float lastMeshDownlinkTime = 0;
     public int lastMeshSize = 0;
-    public static MeshDataGatherer S; 
+    public static MeshDataGatherer S;
+    private float deltaTimeAveraged = 1.0f;
 
     void Start()
     {
@@ -72,6 +74,7 @@ public class MeshDataGatherer : MonoBehaviour
         m_lastUpdateTime = 0.0f;
         S = this; 
     }
+
 
     public void disableMeshDisplay()
     {
@@ -98,7 +101,7 @@ public class MeshDataGatherer : MonoBehaviour
         if (PMT == null)
             PMT = PhotonMeshTransfer.getSingleton();
         //DONT PISS OFF PHOTON BY SENDING TOO FREQUENTLY! THEY WILL KICK YOU!
-        if (lastMeshDownlinkTime + 0.01f*lastMeshSize*(ConnectAndJoinSpaace.disconnectCount+1) < Time.realtimeSinceStartup)
+        if (lastMeshDownlinkTime + deltaTimeAveraged + deltaTimeAveraged * 0.01f*lastMeshSize*(ConnectAndJoinSpaace.disconnectCount+1) < Time.realtimeSinceStartup)
         {
             SurfacesList.Sort();
             // you can't block here and wait for the camera capture.
@@ -149,6 +152,8 @@ public class MeshDataGatherer : MonoBehaviour
 
     void Update()
     {
+        deltaTimeAveraged += Time.deltaTime * 0.001f;
+        deltaTimeAveraged *= 0.999f;
         // Avoid calling Update on a SurfaceObserver too frequently.
         if (m_lastUpdateTime + 15.0f < Time.realtimeSinceStartup)
         {
