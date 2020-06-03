@@ -101,7 +101,7 @@ public class MeshDataGatherer : MonoBehaviour
         if (PMT == null)
             PMT = PhotonMeshTransfer.getSingleton();
         //DONT PISS OFF PHOTON BY SENDING TOO FREQUENTLY! THEY WILL KICK YOU!
-        if (lastMeshDownlinkTime + deltaTimeAveraged + deltaTimeAveraged * 0.01f*lastMeshSize*(ConnectAndJoinSpaace.disconnectCount+1) < Time.realtimeSinceStartup)
+        if (lastMeshDownlinkTime + deltaTimeAveraged + deltaTimeAveraged * 0.001f*lastMeshSize*(ConnectAndJoinSpaace.disconnectCount+1) < Time.realtimeSinceStartup)
         {
             SurfacesList.Sort();
             // you can't block here and wait for the camera capture.
