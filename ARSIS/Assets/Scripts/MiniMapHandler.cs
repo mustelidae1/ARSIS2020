@@ -39,8 +39,8 @@ public class MiniMapHandler : MonoBehaviour
         //movement with the player
         
         miniMapAnchor.transform.position = new Vector3(
-            startPosition.x - (PhotonRPCLinks.getSingleton().crewMemberGO.transform.position.x * miniMapAnchor.transform.localScale.x),
-            startPosition.y - (PhotonRPCLinks.getSingleton().crewMemberGO.transform.position.z * miniMapAnchor.transform.localScale.z),
+            startPosition.x - PhotonRPCLinks.getSingleton().crewMemberGO.transform.position.x,
+            startPosition.y - PhotonRPCLinks.getSingleton().crewMemberGO.transform.position.z,
             startPosition.z);
         
         //rotation with the player
