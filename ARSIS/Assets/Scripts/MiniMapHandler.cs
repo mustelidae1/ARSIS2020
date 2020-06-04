@@ -23,7 +23,7 @@ public class MiniMapHandler : MonoBehaviour
         singleton = this;
         mapElements = new List<MapElement>();
         //startPosition = this.gameObject.transform.localPosition;//why doesn't this work!?
-        startPosition = new Vector3(2.0f, 1.0f, 5.0f);
+        startPosition = new Vector3(0.0f, 0.0f, 2.0f);
     }
 
     public static MiniMapHandler getSingleton()
@@ -46,7 +46,7 @@ public class MiniMapHandler : MonoBehaviour
             -PhotonRPCLinks.getSingleton().crewMemberGO.transform.position.z);
 
         //rotation with the player
-        miniMapAnchor.transform.localRotation = Quaternion.Euler(new Vector3(0,-PhotonRPCLinks.getSingleton().crewMemberGO.transform.rotation.eulerAngles.y,0)); // the math is only making sense in my head a little bit right now. Dan tired.
+        miniMapAnchor.transform.localRotation = Quaternion.Euler(new Vector3(0,PhotonRPCLinks.getSingleton().crewMemberGO.transform.rotation.eulerAngles.y+90.0f,0)); // the math is only making sense in my head a little bit right now. Dan tired.
 
     }
 

@@ -31,10 +31,10 @@ public class PhotonMeshTransfer : MonoBehaviourPun
         {
             testLastSendGametime = Time.realtimeSinceStartup;
             //uncomment this block for generating arbitrary mesh test data
-            /*
+            
             //generate arbitrary mesh data, in this case a triangle
             //2020-05-31 - this still fracking works - Dan
-            
+            /*
             Vector3 pos = UnityEngine.Random.insideUnitSphere * UnityEngine.Random.Range(0, 100.0f);
             Vector3[] verts = { UnityEngine.Random.insideUnitSphere * UnityEngine.Random.Range(0, 100.0f), UnityEngine.Random.insideUnitSphere * UnityEngine.Random.Range(0, 100.0f), UnityEngine.Random.insideUnitSphere * UnityEngine.Random.Range(0, 100.0f) };
             verts[0].y *= 0.001f;
@@ -88,6 +88,7 @@ public class PhotonMeshTransfer : MonoBehaviourPun
         meesh.RecalculateTangents();
         newMesh.GetComponent<MeshFilter>().mesh = meesh;
         newMesh.GetComponent<MeshRenderer>().material = meshMaterial;
+        MiniMapHandler.getSingleton().addElement(meesh, pos, rot);
     }
 
     public static PhotonMeshTransfer getSingleton()
