@@ -36,7 +36,7 @@ public class PhotonMeshTransfer : MonoBehaviourPun
             //2020-05-31 - this still fracking works - Dan
             
             Vector3 pos = UnityEngine.Random.insideUnitSphere * UnityEngine.Random.Range(0, 100.0f);
-            Vector3[] verts = { UnityEngine.Random.insideUnitSphere, UnityEngine.Random.insideUnitSphere, UnityEngine.Random.insideUnitSphere };
+            Vector3[] verts = { UnityEngine.Random.insideUnitSphere * UnityEngine.Random.Range(0, 100.0f), UnityEngine.Random.insideUnitSphere * UnityEngine.Random.Range(0, 100.0f), UnityEngine.Random.insideUnitSphere * UnityEngine.Random.Range(0, 100.0f) };
             verts[0].y *= 0.001f;
             verts[1].y *= 0.001f;
             verts[2].y *= 0.001f;
@@ -52,10 +52,10 @@ public class PhotonMeshTransfer : MonoBehaviourPun
             meesh.RecalculateNormals();
             meesh.RecalculateTangents();
             MiniMapHandler.getSingleton().addElement(meesh, verts[0], rot);
-
+            */
             //network testing
             //pv.RPC("receiveMeshData", RpcTarget.All, pos, (object)rot, (object)verts, (object)indexors);
-            */
+            
         }
     }
 

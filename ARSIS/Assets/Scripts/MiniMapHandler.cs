@@ -36,15 +36,17 @@ public class MiniMapHandler : MonoBehaviour
 
     public void Update()
     {
+
+
+
         //movement with the player
         
-        miniMapAnchor.transform.position = new Vector3(
-            startPosition.x - PhotonRPCLinks.getSingleton().crewMemberGO.transform.position.x,
-            startPosition.y - PhotonRPCLinks.getSingleton().crewMemberGO.transform.position.z,
-            startPosition.z);
-        
+        miniMapAnchor.transform.localPosition = new Vector3(-PhotonRPCLinks.getSingleton().crewMemberGO.transform.position.x,
+            0,
+            -PhotonRPCLinks.getSingleton().crewMemberGO.transform.position.z);
+
         //rotation with the player
-        //miniMapAnchor.transform.rotation // the math is only making sense in my head a little bit right now. Dan tired.
+        miniMapAnchor.transform.localRotation = Quaternion.Euler(new Vector3(0,-PhotonRPCLinks.getSingleton().crewMemberGO.transform.rotation.eulerAngles.y,0)); // the math is only making sense in my head a little bit right now. Dan tired.
 
     }
 
